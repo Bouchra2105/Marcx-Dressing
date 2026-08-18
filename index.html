@@ -43,15 +43,71 @@
     </nav>
   </div>
 
-  <header class="hero">
-    <p class="eyebrow">Boutique mode · Bénin</p>
-    <h1>Marcx Dressing</h1>
-    <p>L'élégance au quotidien : des pièces choisies avec soin pour homme, femme et enfant, livrées où que vous soyez au Bénin.</p>
-    <div style="margin-top:22px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
-      <a href="catalogue.html" class="btn btn-primary">👗 Voir le catalogue</a>
-      <a href="https://wa.me/2290141908582?text=Bonjour%2C%20je%20souhaite%20passer%20commande%20chez%20Marcx%20Dressing" target="_blank" class="btn btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);">
-        <i class="fab fa-whatsapp"></i> Commander sur WhatsApp
-      </a>
+  <header class="hero-slider-wrap">
+    <div class="hero-slider" id="heroSlider">
+      
+      <!-- Slide 1: Jeans & Streetwear -->
+      <div class="hero-slide active" style="--bg: url('images/catalogue/jeans/jean-brode-lettrage-rouge.jpg');">
+        <div class="hero-slide-bg"></div>
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+          <p class="eyebrow"><i class="fas fa-bolt"></i> Nouvelle Collection Streetwear</p>
+          <h1>L'Élégance Urbaine au Quotidien</h1>
+          <p>Jeans baggy, modèles brodés et coupes tendance sélectionnés pour affirmer votre personnalité.</p>
+          <div class="hero-slide-actions">
+            <a href="catalogue.html?cat=jean" class="btn btn-primary">👖 Découvrir les Jeans</a>
+            <a href="https://wa.me/2290141908582?text=Bonjour%20Marcx%20Dressing%2C%20je%20souhaite%20commander%20un%20Jean" target="_blank" class="btn btn-outline-white">
+              <i class="fab fa-whatsapp"></i> Commander sur WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: T-shirts & Pack Promo -->
+      <div class="hero-slide" style="--bg: url('images/catalogue/tshirts/tshirt-noir-rsonegotn.jpg');">
+        <div class="hero-slide-bg"></div>
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+          <p class="eyebrow"><i class="fas fa-fire"></i> Offre Spéciale T-shirts</p>
+          <h1>T-Shirts Graphiques &amp; Oversize</h1>
+          <p>Profitez du pack exclusif : 3 T-shirts au choix à 12 000 FCFA (soit 4 000 FCFA l'unité) avec livraison express partout au Bénin.</p>
+          <div class="hero-slide-actions">
+            <a href="catalogue.html?cat=tshirt" class="btn btn-primary">👕 Découvrir les T-shirts</a>
+            <a href="https://wa.me/2290141908582?text=Bonjour%2C%20je%20souhaite%20profiter%20du%20pack%203%20t-shirts%20à%2010000%20FCFA" target="_blank" class="btn btn-outline-white">
+              <i class="fab fa-whatsapp"></i> Profiter du pack promo
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Claquettes & Mules -->
+      <div class="hero-slide" style="--bg: url('images/catalogue/claquettes/claquette-noire-signature-blanche.jpg');">
+        <div class="hero-slide-bg"></div>
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+          <p class="eyebrow"><i class="fas fa-star"></i> Confort &amp; Tendance</p>
+          <h1>Claquettes, Slides &amp; Mules</h1>
+          <p>Slides, Crocs streetwear et modèles style Birkenstock de 3 500 à 6 000 FCFA pour compléter vos tenues.</p>
+          <div class="hero-slide-actions">
+            <a href="catalogue.html?cat=claquette" class="btn btn-primary">🩴 Voir les Chaussures</a>
+            <a href="catalogue.html" class="btn btn-outline-white">
+              <i class="fas fa-bag-shopping"></i> Tout le catalogue
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navigation fléchée -->
+    <button class="slider-arrow prev" id="sliderPrev" aria-label="Slide précédente"><i class="fas fa-chevron-left"></i></button>
+    <button class="slider-arrow next" id="sliderNext" aria-label="Slide suivante"><i class="fas fa-chevron-right"></i></button>
+
+    <!-- Indicateurs / Barres de progression -->
+    <div class="slider-indicators" id="sliderIndicators">
+      <button class="indicator active" data-slide="0"><span class="bar"></span><span class="label">01 Jeans</span></button>
+      <button class="indicator" data-slide="1"><span class="bar"></span><span class="label">02 T-shirts</span></button>
+      <button class="indicator" data-slide="2"><span class="bar"></span><span class="label">03 Chaussures</span></button>
     </div>
   </header>
 
@@ -62,9 +118,9 @@
         <div class="promo-banner-text">
           <span class="promo-tag">🔥 Offre limitée</span>
           <h3>3 T-shirts au choix à 12 000 FCFA</h3>
-          <p>Mixez vos designs préférés dans le catalogue et économisez sur votre pack.</p>
+          <p>Mixez vos designs préférés dans le catalogue et économisez 2 000 FCFA sur votre pack (4 000 FCFA l'unité).</p>
         </div>
-        <a href="https://wa.me/2290141908582?text=Bonjour%2C%20je%20suis%20intéressé%20par%20l'offre%203%20t-shirts%20à%2012%20000%20FCFA%20chez%20Marcx%20Dressing" target="_blank" class="btn btn-whatsapp">
+        <a href="https://wa.me/2290141908582?text=Bonjour%2C%20je%20suis%20intéressé%20par%20l'offre%203%20t-shirts%20à%2010%20000%20FCFA%20chez%20Marcx%20Dressing" target="_blank" class="btn btn-whatsapp">
           <i class="fab fa-whatsapp"></i> Profiter de l'offre
         </a>
       </div>
@@ -120,17 +176,22 @@
         <div class="card" style="padding:14px;">
           <img style="width:100%; height:220px; object-fit:cover; border-radius:10px; margin-bottom:14px;" src="images/catalogue/jeans/jean-brode-lettrage-rouge.jpg" alt="Jean brodé lettrage rouge Marcx Dressing" />
           <h3 style="padding-left:6px;">Jean brodé lettrage rouge</h3>
-          <p style="padding-left:6px; color:var(--green); font-weight:700;">12 000 FCFA</p>
+          <p style="padding-left:6px; color:var(--green); font-weight:700;">9 000 FCFA</p>
         </div>
         <div class="card" style="padding:14px;">
           <img style="width:100%; height:220px; object-fit:cover; border-radius:10px; margin-bottom:14px;" src="images/catalogue/tshirts/tshirt-blanc-nezha-fille.jpg" alt="T-shirt blanc Nezha Marcx Dressing" />
           <h3 style="padding-left:6px;">T-shirt blanc Nezha</h3>
-          <p style="padding-left:6px; color:var(--green); font-weight:700;">5 000 FCFA</p>
+          <p style="padding-left:6px; color:var(--green); font-weight:700;">4 000 FCFA</p>
         </div>
         <div class="card" style="padding:14px;">
           <img style="width:100%; height:220px; object-fit:cover; border-radius:10px; margin-bottom:14px;" src="images/catalogue/jeans/jean-strass-teinte.jpg" alt="Jean strass teinté Marcx Dressing" />
           <h3 style="padding-left:6px;">Jean strass teinté</h3>
-          <p style="padding-left:6px; color:var(--green); font-weight:700;">12 000 FCFA</p>
+          <p style="padding-left:6px; color:var(--green); font-weight:700;">9 000 FCFA</p>
+        </div>
+        <div class="card" style="padding:14px;">
+          <img style="width:100%; height:220px; object-fit:cover; border-radius:10px; margin-bottom:14px;" src="images/catalogue/claquettes/claquette-noire-signature-blanche.jpg" alt="Claquette noire signature blanche Marcx Dressing" />
+          <h3 style="padding-left:6px;">Claquette signature blanche</h3>
+          <p style="padding-left:6px; color:var(--green); font-weight:700;">3 500 FCFA</p>
         </div>
       </div>
       <div style="text-align:center; margin-top:34px;">
@@ -149,6 +210,63 @@
         <li>Service après-vente et conseil en style personnalisé</li>
         <li>Commande en ligne simple et rapide via WhatsApp</li>
       </ul>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <p class="eyebrow">Retours d'expérience</p>
+        <h2 class="section-title">Ce que disent nos clients</h2>
+        <p class="section-sub">Plus de 500+ clients satisfaits à Cotonou, Calavi, Porto-Novo et partout au Bénin.</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div>
+            <div class="stars" style="color:#e8b93f; margin-bottom:10px;">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">« Qualité incroyable ! J'ai commandé le pack de 3 t-shirts streetwear, reçu à Calavi le lendemain matin. Le tissu est épais et ne rétrécit pas au lavage. »</p>
+          </div>
+          <div class="testimonial-user">
+            <div class="testimonial-avatar">JD</div>
+            <div class="testimonial-meta">
+              <h4>Junior D. <span class="verified-tag"><i class="fas fa-check-circle"></i> Achat vérifié</span></h4>
+              <span>Abomey-Calavi</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div>
+            <div class="stars" style="color:#e8b93f; margin-bottom:10px;">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">« Service client au top sur WhatsApp ! Ils m'ont bien conseillé sur la taille du jean baggy brodé. La coupe tombe parfaitement, je recommande les yeux fermés. »</p>
+          </div>
+          <div class="testimonial-user">
+            <div class="testimonial-avatar">FK</div>
+            <div class="testimonial-meta">
+              <h4>Farid K. <span class="verified-tag"><i class="fas fa-check-circle"></i> Achat vérifié</span></h4>
+              <span>Cotonou (Haie Vive)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div>
+            <div class="stars" style="color:#e8b93f; margin-bottom:10px;">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+            </div>
+            <p class="testimonial-text">« Livraison rapide jusqu'à Parakou en 48h chrono. Les claquettes sont très confortables et le rapport qualité-prix est imbattable. Bravo à l'équipe Marcx ! »</p>
+          </div>
+          <div class="testimonial-user">
+            <div class="testimonial-avatar">SA</div>
+            <div class="testimonial-meta">
+              <h4>Samira A. <span class="verified-tag"><i class="fas fa-check-circle"></i> Achat vérifié</span></h4>
+              <span>Parakou</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="cta-band">
@@ -182,17 +300,17 @@
       </div>
       <div>
         <h4>Catégories</h4>
-        <a href="catalogue.html">Jeans</a>
-        <a href="catalogue.html">T-shirts</a>
-        <a href="catalogue.html">Claquettes</a>
-        <a href="catalogue.html">Nouveautés</a>
-        <a href="catalogue.html">Promotions</a>
+        <a href="catalogue.html?cat=jean">Jeans</a>
+        <a href="catalogue.html?cat=tshirt">T-shirts</a>
+        <a href="catalogue.html?cat=claquette">Claquettes</a>
+        <a href="catalogue.html?cat=nouveau">Nouveautés</a>
+        <a href="catalogue.html?cat=promo">Promotions</a>
       </div>
       <div>
         <h4>Contact</h4>
         <p><i class="fas fa-phone" style="color:var(--green-bright); margin-right:6px;"></i> +229 01 41 90 85 82</p>
         <p><i class="fas fa-envelope" style="color:var(--green-bright); margin-right:6px;"></i> nombaalbouchra71@gmail.com</p>
-        <p><i class="fas fa-location-dot" style="color:var(--green-bright); margin-right:6px;"></i> Cotonou, Bénin</p>
+        <p><i class="fas fa-location-dot" style="color:var(--green-bright); margin-right:6px;"></i> <a href="https://www.google.com/maps?q=6.372057027073176,2.463993449963338" target="_blank" style="color:inherit; text-decoration:underline dotted;">Cotonou, Bénin</a></p>
       </div>
     </div>
     <div class="footer-bottom">
