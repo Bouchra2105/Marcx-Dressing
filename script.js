@@ -247,6 +247,17 @@ function initCartDOM() {
             <option value="Boutique">Retrait gratuit en boutique</option>
           </select>
         </div>
+        <div class="cart-payment-group">
+          <label for="cartPaymentMethod"><i class="fas fa-credit-card"></i> Mode de règlement</label>
+          <select id="cartPaymentMethod" class="cart-payment-select">
+            <option value="Paiement à la livraison (Cash)">💵 Espèces à la livraison</option>
+            <option value="MTN Mobile Money">📱 MTN Mobile Money (+229 01 41 90 85 82)</option>
+            <option value="Moov Money">📱 Moov Money (+229 01 41 90 85 82)</option>
+          </select>
+        </div>
+        <div class="cart-trust-note">
+          <i class="fas fa-shield-alt"></i> <span>Échange de taille garanti sous 48h à Cotonou.</span>
+        </div>
         <div class="cart-total-row">
           <span class="cart-total-label">Total :</span>
           <span class="cart-total-price" id="cartTotalPrice">0 FCFA</span>
@@ -348,9 +359,9 @@ function updateCartUI() {
   const promoMsgEl = document.getElementById('cartPromoMsg');
   if (promoMsgEl) {
     if (tshirtCount >= 3) {
-      promoMsgEl.innerHTML = `<div class="cart-promo-badge"><i class="fas fa-fire"></i> Offre 3 t-shirts à 10 000 FCFA appliquée !</div>`;
+      promoMsgEl.innerHTML = `<div class="cart-promo-badge"><i class="fas fa-fire"></i> Offre 3 t-shirts à 12 000 FCFA appliquée !</div>`;
     } else if (tshirtCount > 0) {
-      promoMsgEl.innerHTML = `<div class="cart-promo-badge" style="background:#fff3e0; border-color:#ff9800; color:#e65100;"><i class="fas fa-tags"></i> Plus que ${3 - tshirtCount} t-shirt(s) pour profiter du pack à 10 000 FCFA !</div>`;
+      promoMsgEl.innerHTML = `<div class="cart-promo-badge" style="background:#fff3e0; border-color:#ff9800; color:#e65100;"><i class="fas fa-tags"></i> Plus que ${3 - tshirtCount} t-shirt(s) pour profiter du pack à 12 000 FCFA !</div>`;
     } else {
       promoMsgEl.innerHTML = '';
     }
@@ -386,7 +397,11 @@ function checkoutCartWhatsApp() {
     msg += `🔥 *Offre spéciale :* Pack T-shirts appliqué\n`;
   }
 
+  const paymentSelect = document.getElementById('cartPaymentMethod');
+  const paymentMethod = paymentSelect ? paymentSelect.value : 'Paiement à la livraison (Cash)';
+
   msg += `📍 *Ville de livraison :* ${city} (${deliveryCost > 0 ? formatPrice(deliveryCost) : 'Retrait gratuit'})\n`;
+  msg += `💳 *Mode de règlement :* ${paymentMethod}\n`;
   msg += `💰 *TOTAL À PAYER : ${formatPrice(total)}*\n\n`;
   msg += `Pouvez-vous me confirmer la commande et le délai de réception ? Merci !`;
 
@@ -628,11 +643,20 @@ function enhanceProductCards() {
         addCartBtn.setAttribute('aria-label', `Ajouter ${title} au panier`);
         addCartBtn.addEventListener('click', (e) => {
           e.preventDefault();
-          addToCart(productData);
+          openSizePickerModal(productData, (size) => {
+            addToCart({ ...productData, size: size, quantity: 1 });
+          });
         });
 
         oldBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Commander';
         oldBtn.style.width = 'auto';
+        oldBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          openSizePickerModal(productData, (size) => {
+            const msg = `Bonjour Marcx Dressing ! 🛍️\nJe souhaite commander :\n- *${productData.title}*\n- Taille : ${size}\n- Prix : ${formatPrice(productData.price)}`;
+            window.open(`https://wa.me/2290141908582?text=${encodeURIComponent(msg)}`, '_blank');
+          });
+        });
 
         oldBtn.parentNode.insertBefore(actionsWrap, oldBtn);
         actionsWrap.appendChild(addCartBtn);
@@ -1126,4 +1150,74 @@ function initCookieConsent() {
       modal.classList.add('visible');
     });
   });
+}
+
+
+// ===== Quick Size Selection Modal on Product Card Click =====
+function openSizePickerModal(productData, callback) {
+  let modal = document.getElementById('quickSizeModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.className = 'quick-size-backdrop';
+    modal.id = 'quickSizeModal';
+    modal.innerHTML = `
+      <div class="quick-size-box">
+        <div class="quick-size-header">
+          <h3 id="qsTitle">Choisir votre taille</h3>
+          <button class="quick-size-close" id="qsClose"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="quick-size-img-row">
+          <img id="qsImg" src="" alt="Produit" class="quick-size-img" />
+          <div>
+            <div id="qsName" style="font-weight:700; font-size:0.92rem; color:var(--near-black);"></div>
+            <div id="qsPrice" style="color:var(--green); font-weight:800; font-size:0.9rem;"></div>
+          </div>
+        </div>
+        <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:6px;">Sélectionnez votre taille :</div>
+        <div class="quick-size-pills" id="qsPills"></div>
+        <div class="quick-size-actions">
+          <button class="btn btn-primary" id="qsConfirmBtn" style="width:100%; justify-content:center;">
+            <i class="fas fa-check"></i> Valider et continuer
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('open');
+    });
+    modal.querySelector('#qsClose').addEventListener('click', () => modal.classList.remove('open'));
+  }
+
+  document.getElementById('qsImg').src = productData.image;
+  document.getElementById('qsName').textContent = productData.title;
+  document.getElementById('qsPrice').textContent = formatPrice(productData.price);
+
+  const sizes = productData.cat === 'claquette'
+    ? ['39', '40', '41', '42', '43', '44', '45']
+    : ['S', 'M', 'L', 'XL', 'XXL'];
+
+  let chosenSize = productData.cat === 'claquette' ? '42' : 'L';
+
+  const pillsWrap = document.getElementById('qsPills');
+  pillsWrap.innerHTML = sizes.map(s => `
+    <button type="button" class="quick-size-btn ${s === chosenSize ? 'active' : ''}" data-size="${s}">${s}</button>
+  `).join('');
+
+  pillsWrap.querySelectorAll('.quick-size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      pillsWrap.querySelectorAll('.quick-size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      chosenSize = btn.dataset.size;
+    });
+  });
+
+  const confirmBtn = document.getElementById('qsConfirmBtn');
+  confirmBtn.onclick = () => {
+    modal.classList.remove('open');
+    if (callback) callback(chosenSize);
+  };
+
+  modal.classList.add('open');
 }
