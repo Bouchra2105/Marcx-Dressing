@@ -929,6 +929,7 @@ function initHeroSlider() {
 // ===== Initialisation globale au chargement =====
 document.addEventListener('DOMContentLoaded', () => {
   initHeroSlider();
+  initCookieConsent();
   initCartDOM();
   initQuickViewDOM();
   initFloatingWhatsApp();
@@ -970,3 +971,159 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+
+
+// ===== Gestion du Consentement des Cookies =====
+function initCookieConsent() {
+  const CONSENT_KEY = 'marcx_cookie_consent';
+  const savedConsent = localStorage.getItem(CONSENT_KEY);
+
+  // HTML du bandeau et de la modal de préférences
+  const cookieHTML = `
+    <div id="marcxCookieBanner" class="cookie-banner-wrap" role="dialog" aria-label="Gestion des cookies">
+      <div class="cookie-header">
+        <span class="cookie-icon">🍪</span>
+        <h3 class="cookie-title">Votre vie privée nous tient à cœur</h3>
+      </div>
+      <p class="cookie-text">
+        Chez <strong>Marcx Dressing</strong>, nous utilisons des cookies pour assurer le bon fonctionnement de votre panier d'achat et analyser notre trafic afin de vous offrir le meilleur service.
+      </p>
+      <div class="cookie-actions">
+        <button id="cookieAcceptAll" class="cookie-btn cookie-btn-accept">
+          <i class="fas fa-check"></i> Accepter tout
+        </button>
+        <button id="cookieRefuse" class="cookie-btn cookie-btn-refuse">
+          Essentiels uniquement
+        </button>
+      </div>
+      <button id="cookieOpenSettings" class="cookie-btn-settings">
+        Personnaliser mes choix
+      </button>
+    </div>
+
+    <div id="marcxCookieModal" class="cookie-modal-overlay">
+      <div class="cookie-modal-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 style="margin:0;"><i class="fas fa-sliders-h" style="color:#d4a853; margin-right:8px;"></i> Préférences des cookies</h3>
+          <button id="cookieModalClose" style="background:none; border:none; color:#8c9794; font-size:1.2rem; cursor:pointer;"><i class="fas fa-times"></i></button>
+        </div>
+        <p>Gérez vos préférences de confidentialité pour Marcx Dressing. Les cookies nécessaires au panier restent toujours actifs.</p>
+
+        <div class="cookie-pref-item">
+          <div class="cookie-pref-info">
+            <h4>Cookies essentiels (Panier & Sécurité)</h4>
+            <p>Indispensables pour mémoriser votre panier et naviguer sur le site.</p>
+          </div>
+          <label class="cookie-switch">
+            <input type="checkbox" checked disabled>
+            <span class="cookie-slider"></span>
+          </label>
+        </div>
+
+        <div class="cookie-pref-item">
+          <div class="cookie-pref-info">
+            <h4>Mesure d'audience & Statistiques</h4>
+            <p>Nous aide à savoir quels vêtements ont le plus de succès.</p>
+          </div>
+          <label class="cookie-switch">
+            <input type="checkbox" id="cookiePrefAnalytics" checked>
+            <span class="cookie-slider"></span>
+          </label>
+        </div>
+
+        <div class="cookie-pref-item">
+          <div class="cookie-pref-info">
+            <h4>Réseaux sociaux & Marketing</h4>
+            <p>Permet d'afficher nos promotions sur WhatsApp, TikTok et Instagram.</p>
+          </div>
+          <label class="cookie-switch">
+            <input type="checkbox" id="cookiePrefMarketing" checked>
+            <span class="cookie-slider"></span>
+          </label>
+        </div>
+
+        <div class="cookie-modal-actions">
+          <button id="cookieSavePreferences" class="cookie-btn cookie-btn-accept" style="width:100%;">
+            Enregistrer mes préférences
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', cookieHTML);
+
+  const banner = document.getElementById('marcxCookieBanner');
+  const modal = document.getElementById('marcxCookieModal');
+  const btnAcceptAll = document.getElementById('cookieAcceptAll');
+  const btnRefuse = document.getElementById('cookieRefuse');
+  const btnSettings = document.getElementById('cookieOpenSettings');
+  const btnCloseModal = document.getElementById('cookieModalClose');
+  const btnSavePreferences = document.getElementById('cookieSavePreferences');
+  const chkAnalytics = document.getElementById('cookiePrefAnalytics');
+  const chkMarketing = document.getElementById('cookiePrefMarketing');
+
+  function saveConsent(level, preferences = {}) {
+    const data = {
+      level: level,
+      preferences: preferences,
+      date: new Date().toISOString()
+    };
+    localStorage.setItem(CONSENT_KEY, JSON.stringify(data));
+    banner.classList.remove('visible');
+    modal.classList.remove('visible');
+  }
+
+  // Si pas encore de consentement, afficher avec un léger délai
+  if (!savedConsent) {
+    setTimeout(() => {
+      banner.classList.add('visible');
+    }, 900);
+  }
+
+  if (btnAcceptAll) {
+    btnAcceptAll.addEventListener('click', () => {
+      saveConsent('all', { essentials: true, analytics: true, marketing: true });
+    });
+  }
+
+  if (btnRefuse) {
+    btnRefuse.addEventListener('click', () => {
+      saveConsent('essentials', { essentials: true, analytics: false, marketing: false });
+    });
+  }
+
+  if (btnSettings) {
+    btnSettings.addEventListener('click', () => {
+      banner.classList.remove('visible');
+      modal.classList.add('visible');
+    });
+  }
+
+  if (btnCloseModal) {
+    btnCloseModal.addEventListener('click', () => {
+      modal.classList.remove('visible');
+      if (!localStorage.getItem(CONSENT_KEY)) {
+        banner.classList.add('visible');
+      }
+    });
+  }
+
+  if (btnSavePreferences) {
+    btnSavePreferences.addEventListener('click', () => {
+      saveConsent('custom', {
+        essentials: true,
+        analytics: chkAnalytics.checked,
+        marketing: chkMarketing.checked
+      });
+    });
+  }
+
+  // Support pour ré-ouvrir les préférences depuis le footer
+  document.querySelectorAll('.open-cookie-settings').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.classList.add('visible');
+    });
+  });
+}
